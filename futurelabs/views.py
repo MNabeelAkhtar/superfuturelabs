@@ -1,6 +1,6 @@
 import re
 from django.shortcuts import render, redirect
-from AliExpress_Products.models import ProductsDetails
+from futurelabs.models import ProductsDetails
 from bot import scrape_aliex_data
 
 def products(request):
