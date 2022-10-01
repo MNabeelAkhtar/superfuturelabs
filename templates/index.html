@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<head>
+    <title>Ali Express Product Filter</title>
+    <style>
+
+        table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+
+        td, th {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+        }
+
+        tr:nth-child(even) {
+          background-color: #dddddd;
+        }
+
+        * {box-sizing: border-box;}
+
+        body {
+          margin: 0;
+          font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .topnav {
+          overflow: hidden;
+          background-color: #e9e9e9;
+        }
+
+        .topnav a {
+          float: left;
+          display: block;
+          color: black;
+          text-align: center;
+          padding: 14px 16px;
+          text-decoration: none;
+          font-size: 17px;
+        }
+
+        .topnav a:hover {
+          background-color: #ddd;
+          color: black;
+        }
+
+        .topnav a.active {
+          background-color: #2196F3;
+          color: white;
+        }
+
+        .topnav .search-container {
+          float: right;
+        }
+
+        .topnav input[type=text] {
+          padding: 6px;
+          margin-top: 8px;
+          font-size: 17px;
+          border: none;
+        }
+
+        .topnav .search-container button {
+          float: right;
+          padding: 6px;
+          margin-top: 8px;
+          margin-right: 16px;
+          background: #ddd;
+          font-size: 17px;
+          border: none;
+          cursor: pointer;
+        }
+
+        .topnav .search-container button:hover {
+          background: #ccc;
+        }
+
+        @media screen and (max-width: 600px) {
+          .topnav .search-container {
+            float: none;
+          }
+          .topnav a, .topnav input[type=text], .topnav .search-container button {
+            float: none;
+            display: block;
+            text-align: left;
+            width: 100%;
+            margin: 0;
+            padding: 14px;
+          }
+          .topnav input[type=text] {
+            border: 2px solid #ccc;
+          }
+        }
+
+        #textboxid
+        {
+            height:30px;
+            width:200px;
+            font-size:12pt;
+            margin-right: 6px;
+            margin-left: 12px;
+        }
+        #optionboxid
+        {
+            height:30px;
+            width:190px;
+            font-size:12pt;
+            margin-right: 12px;
+            margin-left: 6px;
+        }
+        #textid
+        {
+            height:30px;
+            width:80px;
+            font-size:12pt;
+            margin-right: 2px;
+            margin-left: 2px;
+        }
+        #button
+        {
+            height:35px;
+            width:180px;
+            font-size:12pt;
+            border: 2px solid #2196F3;
+            margin-right: 16px;
+            margin-left: 16px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+        }
+        #button:hover {
+            background-color: #2196F3;
+            color: white;
+        }
+        #text{
+            font-size: 15pt;
+            margin-left: 12px;
+        }
+        </style>
+</head>
+<body>
+    <div class="topnav">
+        <a class="active">Ali Express Scrape and Filter Tool</a>
+        <div class="search-container">
+          <form method="POST">
+              {% csrf_token %}
+            <input type="text" placeholder="Search.." name="search">
+            <button type="submit">Scrape Data</button>
+          </form>
+        </div>
+    </div>
+    <center><h1>Ali Express Product and Filter</h1></center>
+    <form>
+        <div>
+            <div>
+                <input name="title" value="{{ request.GET.title }}" type="text" id="textboxid" placeholder="Search for products">
+                <label for="Price" id="text">Price: </label>
+                <input name="min_price" value="{{ request.GET.min_price }}" type="text" id="textid" placeholder="Min">
+                <label>-</label>
+                <input name="max_price"  value="{{ request.GET.max_price }}" type="text" id="textid" placeholder="Max">
+
+                <select name="price_range" id="optionboxid">
+                    <option value="">Sort by Price</option>
+                    {% if request.GET.price_range == "low_high" %}
+                      <option value="low_high" selected>Low - High</option>
+                    {% else %}
+                      <option value="low_high">Low - High</option>
+                    {% endif %}
+
+                    {% if request.GET.price_range == "high_low" %}
+                      <option value="high_low" selected>High - Low</option>
+                    {% else %}
+                      <option value="high_low">High - Low</option>
+                    {% endif %}
+                  </select>
+                <label for="Delivery Type" id="text">  Delivery Method: </label>
+
+                <select name="shipping_method" id="optionboxid">
+                  <option value="">Select Shipping Method</option>
+                  {% if request.GET.shipping_method == "7-Day Delivery" %}
+                    <option value="7-Day Delivery" selected>7-Day Delivery</option>
+                  {% else %}
+                    <option value="7-Day Delivery">7-Day Delivery</option>
+                  {% endif %}
+
+                  {% if request.GET.shipping_method == "12-Day Delivery" %}
+                    <option value="12-Day Delivery" selected>12-Day Delivery</option>
+                  {% else %}
+                    <option value="12-Day Delivery">12-Day Delivery</option>
+                  {% endif %}
+
+                  {% if request.GET.shipping_method == "USPS" %}
+                    <option value="USPS" selected>USPS</option>
+                  {% else %}
+                    <option value="USPS">USPS</option>
+                  {% endif %}
+
+                  {% if request.GET.shipping_method == "UPS" %}
+                    <option value="UPS" selected>UPS</option>
+                  {% else %}
+                    <option value="UPS">UPS</option>
+                  {% endif %}
+                </select>
+
+                <button type="submit" id="button">Submit</button>
+                <a href="/">Clear Filter</a>
+            </div>
+        </div>
+    </form>
+
+    <center>
+        <hr/>
+        <table border="1" style="width: 100%;">
+            <tr>
+                <th>Product Image</th>
+                <th>Product Title</th>
+                <th>Product Url</th>
+                <th>Cost</th>
+                <th>Shipping Price</th>
+                <th>Total Price</th>
+                <th>Shipping Method</th>
+                <th>Shipping Speed</th>
+                <th>Arrive By</th>
+            </tr>
+            {% for result in ProductDetails%}
+            <tr>
+                <td tyle="width:100px; text-align:center">
+                    <img src="{{result.image_url}}" width=100px height=100px>
+                </td>
+                <td>{{result.product_name}}</td>
+                <td>
+                    <a href="{{result.url}}" target="_blank">Product URL</a>
+                </td>
+                <td><label>${{result.cost}} USD</label></td>
+                <td>
+                    {% if result.shipping_price == 0.0 %}
+                        <label>Free</label>
+                    {% else %}
+                        <label>${{result.shipping_price}} USD</label>
+                    {% endif %}
+                    </td>
+                <td><label>${{result.total_price}} USD</label></td>
+                <td>{{result.shipping_method}}</td>
+                <td>
+                    {% if result.shipping_speed == None %}
+                        <label> </label>
+                    {% else %}
+                        {{result.shipping_speed}}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if result.arrive_by == None %}
+                        <label> </label>
+                    {% else %}
+                        {{result.arrive_by}}
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </center>
+</body>
+</html>
