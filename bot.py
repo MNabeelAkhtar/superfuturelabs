@@ -121,7 +121,7 @@ def scrape_aliex_data(search):
 
     # products = []
     # shipping_option_list = []
-    # shipping_option_hash = {"shipping_method": shipping_method, "shipping_price": shipping_price, "shipping_speed": shipping_speed, "estimate_time": estimate_time}
+    # shipping_option_hash = {"shipping_method": shipping_method, "shipping_price": shipping_price, "shipping_speed": shipping_speed}
     # product_hash = {"title": title, "price": price, "image": image, "url": url, "shipping_options": shipping_option_list}
 
 
@@ -141,8 +141,7 @@ def save_products(products):
             products_to_be_created.append(
                 ProductsDetails(product_name=title, url=url, image_url=image_url, cost=price,
                                 shipping_price=shipping_price, total_price=float(price + shipping_price),
-                                shipping_method=shipping_method, shipping_speed=shipping_speed,
-                                arrive_by=estimate_time)
+                                shipping_method=shipping_method, arrive_by=estimate_time)
             )
     ProductsDetails.objects.bulk_create(products_to_be_created, ignore_conflicts=True)
 

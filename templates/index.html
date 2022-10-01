@@ -220,7 +220,6 @@
                 <th>Shipping Price</th>
                 <th>Total Price</th>
                 <th>Shipping Method</th>
-                <th>Shipping Speed</th>
                 <th>Arrive By</th>
             </tr>
             {% for result in products %}
@@ -242,13 +241,6 @@
                     </td>
                 <td><label>${{result.total_price}} USD</label></td>
                 <td>{{result.shipping_method}}</td>
-                <td>
-                    {% if result.shipping_speed == None %}
-                        <label> </label>
-                    {% else %}
-                        {{result.shipping_speed}}
-                    {% endif %}
-                </td>
                 <td>
                     {% if result.arrive_by == None %}
                         <label> </label>

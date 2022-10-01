@@ -10,6 +10,5 @@ class ProductsDetails(models.Model):
     shipping_price = models.FloatField(null=True, default=0.0, blank=True)
     total_price = models.FloatField(null=True, default=0.0, blank=True)
     shipping_method = models.CharField(max_length=20, null=True, blank=True)
-    shipping_speed = models.CharField(max_length=255, null=True, blank=True)
     arrive_by = models.CharField(max_length=255, null=True, blank=True)
     created_at = models.DateTimeField(default=timezone.now)
