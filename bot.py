@@ -1,9 +1,10 @@
+from selenium.webdriver.chrome.options import Options
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.keys import Keys
 import time
-# from AliExpress_Products.AliExpress_Products.models import ProductsDetails
+from AliExpress_Products.models import ProductsDetails
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -13,9 +14,14 @@ from selenium.webdriver.support import expected_conditions as EC
 def scrape_aliex_data(search):
     search = search.replace(" ", "+")
     URL = f"https://www.aliexpress.com/af/bottle.html?trafficChannel=af&d=y&CatId=0&SearchText={search}&ltype=affiliate&SortType=default&shipFromCountry=US&page=1"
-
-    S=Service(ChromeDriverManager().install())
-    driver = webdriver.Chrome(service=S)
+    options = Options()
+    options.add_argument("--headless")
+    options.add_argument("--start-maximized")
+    options.add_argument("--no-sandbox")
+    options.add_argument('--disable-dev-shm-usage')
+    # S=Service(ChromeDriverManager().install())
+    S=Service("/var/www/superfuturelabs/chromedriver/stable/chromedriver")
+    driver = webdriver.Chrome(options=options, service=S)
     driver.get(URL)
     WAIT= WebDriverWait(driver, 60)
 
@@ -117,10 +123,6 @@ def scrape_aliex_data(search):
     # shipping_option_list = []
     # shipping_option_hash = {"shipping_method": shipping_method, "shipping_price": shipping_price, "shipping_speed": shipping_speed, "estimate_time": estimate_time}
     # product_hash = {"title": title, "price": price, "image": image, "url": url, "shipping_options": shipping_option_list}
-
-
-
-scrape_aliex_data("Tennis Shoes")
 
 
 def save_products(products):
