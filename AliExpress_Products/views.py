@@ -24,7 +24,7 @@ def products(request):
             display_products = display_products.order_by('total_price')
         elif request.GET.get("price_range") == "high_low":
             display_products = display_products.order_by('-total_price')
-        return render(request,'Index.html',{"ProductDetails":display_products})
+        return render(request,'index.html',{"ProductDetails":display_products})
     else:
         scrape_aliex_data(request.POST["search"])
         return redirect("/")
