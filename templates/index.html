@@ -178,16 +178,10 @@
 
                 <select name="shipping_method" id="optionboxid">
                   <option value="">Select Shipping Method</option>
-                  {% if request.GET.shipping_method == "7-Day Delivery" %}
-                    <option value="7-Day Delivery" selected>7-Day Delivery</option>
+                  {% if request.GET.shipping_method == "FEDEX" %}
+                    <option value="FEDEX" selected>FEDEX</option>
                   {% else %}
-                    <option value="7-Day Delivery">7-Day Delivery</option>
-                  {% endif %}
-
-                  {% if request.GET.shipping_method == "12-Day Delivery" %}
-                    <option value="12-Day Delivery" selected>12-Day Delivery</option>
-                  {% else %}
-                    <option value="12-Day Delivery">12-Day Delivery</option>
+                    <option value="FEDEX">FEDEX</option>
                   {% endif %}
 
                   {% if request.GET.shipping_method == "USPS" %}
