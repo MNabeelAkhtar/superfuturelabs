@@ -51,8 +51,10 @@ def scrape_aliex_data(search):
 
     # WAIT.until(EC.presence_of_element_located((By.XPATH, "//span[@class='next-input next-medium next-select-inner']")))
     shipment_From = WAIT.until(EC.presence_of_element_located((By.XPATH, "//span[@class='next-input next-medium next-select-inner']"))).click()
-    time.sleep(2)
-    shipment_Country = WAIT.until(EC.presence_of_element_located((By.XPATH, "//ul//li[@title='United States']"))).click()
+    # time.sleep(2)
+    # shipment_Country = WAIT.until(EC.presence_of_element_located((By.XPATH, "//ul//li[@title='United States']"))).click()
+    shipment_Country = WAIT.until(EC.presence_of_element_located((By.XPATH, "//ul//li[@title='United States']"))).text
+    print(shipment_Country)
     time.sleep(2)
 
     href_list=[]
