@@ -24,17 +24,17 @@ def scrape_aliex_data(search):
     driver = webdriver.Chrome(options=options, service=S)
     driver.get(URL)
     WAIT= WebDriverWait(driver, 60)
+    time.sleep(5)
+    try:
+         if driver.find_element_by_xpath("//*[contains(@class,'Sk1_X _1-SOk')]"):
+             link =WAIT.until(EC.presence_of_element_located((By.XPATH, "//*[contains(@class,'Sk1_X _1-SOk')]")))
+             driver.execute_script("arguments[0].click();",link)
 
-    # try:
-    #      if driver.find_element_by_xpath("//*[contains(@class,'Sk1_X _1-SOk')]"):
-    #          link =WAIT.until(EC.presence_of_element_located((By.XPATH, "//*[contains(@class,'Sk1_X _1-SOk')]")))
-    #          driver.execute_script("arguments[0].click();",link)
-
-    #      if driver.find_element_by_xpath("//*[contains(@src,'https://img.alicdn.com/tfs/TB1a.Oge_M11u4jSZPxXXahcXXa-48-48.png')]"):
-    #          link1 =WAIT.until(EC.presence_of_element_located((By.XPATH, "//*[contains(@src,'https://img.alicdn.com/tfs/TB1a.Oge_M11u4jSZPxXXahcXXa-48-48.png')]")))
-    #          driver.execute_script("arguments[0].click();",link1)
-    # except Exception as e:
-    #      print(e)
+         if driver.find_element_by_xpath("//*[contains(@src,'https://img.alicdn.com/tfs/TB1a.Oge_M11u4jSZPxXXahcXXa-48-48.png')]"):
+             link1 =WAIT.until(EC.presence_of_element_located((By.XPATH, "//*[contains(@src,'https://img.alicdn.com/tfs/TB1a.Oge_M11u4jSZPxXXahcXXa-48-48.png')]")))
+             driver.execute_script("arguments[0].click();",link1)
+    except:
+         print("Exception on notification")
 
     info =WAIT.until(EC.presence_of_element_located((By.XPATH, "//div[@class='ng-item-wrap ng-item ng-switcher']")))
     info.click()

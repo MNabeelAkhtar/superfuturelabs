@@ -124,7 +124,7 @@
             width:180px;
             font-size:12pt;
             border: 2px solid #2196F3;
-            margin-right: 16px;
+            margin-right: 10px;
             margin-left: 16px;
             transition-duration: 0.4s;
             cursor: pointer;
@@ -137,6 +137,31 @@
             font-size: 15pt;
             margin-left: 12px;
         }
+        #button_clear
+        {
+            height:35px;
+            width:160px;
+            font-size:12pt;
+            border: 2px solid #f32121;
+            margin-right: 5px;
+            margin-left: 75px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+        }
+        #button_clear:hover {
+            background-color: #f32121;
+        }
+        #button_scrape
+        {
+            border: 2px solid #75f321;
+            margin-right: 10px;
+            margin-left: 2px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+        }
+        #button_scrape:hover {
+            background-color: #75f321;
+        }
         </style>
 </head>
 <body>
@@ -146,7 +171,7 @@
           <form method="POST">
               {% csrf_token %}
             <input type="text" placeholder="Search.." name="search">
-            <button type="submit">Scrape Data</button>
+            <button type="submit" id="button_scrape">Scrape Data</button>
           </form>
         </div>
     </div>
@@ -174,10 +199,10 @@
                       <option value="high_low">High - Low</option>
                     {% endif %}
                   </select>
-                <label for="Delivery Type" id="text">  Delivery Method: </label>
+                <!-- <label for="Delivery Type" id="text">  Delivery Method: </label> -->
 
                 <select name="shipping_method" id="optionboxid">
-                  <option value="">Select Shipping Method</option>
+                  <option value="">Shipping Method</option>
                   {% if request.GET.shipping_method == "FEDEX" %}
                     <option value="FEDEX" selected>FEDEX</option>
                   {% else %}
@@ -197,8 +222,9 @@
                   {% endif %}
                 </select>
 
-                <button type="submit" id="button">Submit</button>
-                <a href="/">Clear Filter</a>
+                <button type="submit" id="button">Apply Filters</button>
+                <a href="/">Clear Filters</a>
+                <button type="submit" id="button_clear">Clear Database</button>
             </div>
         </div>
     </form>
