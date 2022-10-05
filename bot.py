@@ -51,6 +51,7 @@ def scrape_aliex_data(search):
 
     WAIT.until(EC.presence_of_element_located((By.XPATH, "//span[@class='next-input next-medium next-select-inner']")))
     shipment_From = driver.find_element(By.XPATH, "//span[@class='next-input next-medium next-select-inner']").click()
+    time.sleep(1)
     shipment_Country = driver.find_element(By.XPATH, "//ul//li[@title='United States']").click()
     time.sleep(2)
 
