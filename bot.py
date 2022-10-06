@@ -23,7 +23,7 @@ def scrape_aliex_data(search):
     S=Service("/var/www/superfuturelabs/chromedriver/stable/chromedriver")
     driver = webdriver.Chrome(options=options, service=S)
     driver.get(URL)
-    WAIT= WebDriverWait(driver, 60)
+    WAIT= WebDriverWait(driver, 40)
     time.sleep(5)
     try:
          if driver.find_element_by_xpath("//*[contains(@class,'Sk1_X _1-SOk')]"):
@@ -70,10 +70,12 @@ def scrape_aliex_data(search):
             for path in paths:
                 if path.get_attribute('href') not in href_list:
                     href_list.append(path.get_attribute('href'))
-        WAIT.until(EC.presence_of_element_located((By.XPATH, "//button[@class='next-btn next-medium next-btn-normal next-pagination-item next-next']")))
-        next_button = driver.find_element(By.XPATH, "//button[@class='next-btn next-medium next-btn-normal next-pagination-item next-next']").click()
+        try:
+            WAIT.until(EC.presence_of_element_located((By.XPATH, "//button[@class='next-btn next-medium next-btn-normal next-pagination-item next-next']")))
+            next_button = driver.find_element(By.XPATH, "//button[@class='next-btn next-medium next-btn-normal next-pagination-item next-next']").click()
+        except: print("No Next Page")
         time.sleep(2)
-    print(len(href_list))
+    print(f"Number of Products: {len(href_list)}")
 
     via = ["UPS", "USPS", "USPS Priority Mail", "FEDEX"]
     day_via = ["7-Day Delivery", "10-Day Delivery", "12-Day Delivery"]
