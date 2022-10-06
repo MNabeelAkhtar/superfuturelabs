@@ -48,13 +48,11 @@ def scrape_aliex_data(search):
     time.sleep(2)
     saveButton =WAIT.until(EC.presence_of_element_located((By.XPATH, "//button[@class='ui-button ui-button-primary go-contiune-btn']"))).click()
 
-
-    # WAIT.until(EC.presence_of_element_located((By.XPATH, "//span[@class='next-input next-medium next-select-inner']")))
-    shipment_From = WAIT.until(EC.presence_of_element_located((By.XPATH, "//span[@class='next-input next-medium next-select-inner']"))).click()
-    # time.sleep(2)
-    # shipment_Country = WAIT.until(EC.presence_of_element_located((By.XPATH, "//ul//li[@title='United States']"))).click()
-    shipment_Country = WAIT.until(EC.presence_of_element_located((By.XPATH, "//ul//li[@title='United States']"))).text
-    print(shipment_Country)
+    try:
+        # WAIT.until(EC.presence_of_element_located((By.XPATH, "//span[@class='next-input next-medium next-select-inner']")))
+        shipment_From = WAIT.until(EC.presence_of_element_located((By.XPATH, "//span[@class='next-input next-medium next-select-inner']"))).click()
+        shipment_Country = WAIT.until(EC.presence_of_element_located((By.XPATH, "//ul//li[@title='United States']"))).click()
+    except: print("Shipping From US Exceptions")
     time.sleep(2)
 
     href_list=[]
@@ -72,7 +70,6 @@ def scrape_aliex_data(search):
             for path in paths:
                 if path.get_attribute('href') not in href_list:
                     href_list.append(path.get_attribute('href'))
-                        # print(path.get_attribute('href'))
         WAIT.until(EC.presence_of_element_located((By.XPATH, "//button[@class='next-btn next-medium next-btn-normal next-pagination-item next-next']")))
         next_button = driver.find_element(By.XPATH, "//button[@class='next-btn next-medium next-btn-normal next-pagination-item next-next']").click()
         time.sleep(2)
@@ -109,7 +106,6 @@ def scrape_aliex_data(search):
             print("Exception")
             WAIT.until(EC.presence_of_element_located((By.XPATH, "//div[contains(@class,'comet-modal-body')]/div")))
             shipping_options = driver.find_elements(By.XPATH,"//div[contains(@class,'comet-modal-body')]/div")
-        print(len(shipping_options))
         a = 1
         shipping_option_list = []
         for ship_option in shipping_options:
