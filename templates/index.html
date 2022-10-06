@@ -67,14 +67,14 @@
           padding: 6px;
           margin-top: 8px;
           margin-right: 16px;
-          background: #ddd;
+          background: rgb(248, 245, 245);
+          border-radius: 2px solid rgb(26, 150, 10);
           font-size: 17px;
-          border: none;
           cursor: pointer;
         }
 
         .topnav .search-container button:hover {
-          background: #ccc;
+          background: rgb(26, 150, 10);
         }
 
         @media screen and (max-width: 600px) {
@@ -151,7 +151,7 @@
         #button_clear:hover {
             background-color: #f32121;
         }
-        #button_scrape
+        /* #button_scrape
         {
             border: 2px solid #75f321;
             margin-right: 10px;
@@ -161,6 +161,51 @@
         }
         #button_scrape:hover {
             background-color: #75f321;
+        } */
+        .button_scrape{
+            position: relative;
+            border: 2px solid #75f321;
+            margin-right: 10px;
+            margin-left: 2px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+        }
+        .button_scrape:active {
+            background-color: #388504;
+        }
+        .button_scrape:hover {
+            background-color: #75f321;
+        }
+        .button_scrape_text{
+            font: bold 12px;
+            transition: all  0.2s;
+        }
+        .button--loading .button_scrape_text{
+            visibility: hidden;
+            opacity: 0;
+        }
+        .button--loading::after{
+            content: "";
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            border: 5px solid transparent;
+            border-top-color: rgb(26, 150, 10);
+            border-radius: 50%;
+            animation: button-loading-spinner 1s linear infinite ;
+        }
+        @keyframes button-loading-spinner {
+            form{
+                transform: rotate(0turn) ;
+            }
+            to{
+                transform: rotate(1turn) ;
+            }
         }
         </style>
 </head>
@@ -171,7 +216,9 @@
           <form method="POST">
               {% csrf_token %}
             <input type="text" placeholder="Search.." name="search">
-            <button type="submit" id="button_scrape">Scrape Data</button>
+            <button type="submit" class="button_scrape" onclick="this.classList.toggle('button--loading')">
+                <span class="button_scrape_text">Scrape Data</span>
+            </button>
           </form>
         </div>
     </div>
