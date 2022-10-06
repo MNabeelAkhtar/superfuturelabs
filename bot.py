@@ -23,7 +23,7 @@ def scrape_aliex_data(search):
     S=Service("/var/www/superfuturelabs/chromedriver/stable/chromedriver")
     driver = webdriver.Chrome(options=options, service=S)
     driver.get(URL)
-    WAIT= WebDriverWait(driver, 40)
+    WAIT= WebDriverWait(driver, 20)
     time.sleep(5)
     try:
          if driver.find_element_by_xpath("//*[contains(@class,'Sk1_X _1-SOk')]"):
@@ -56,7 +56,7 @@ def scrape_aliex_data(search):
     time.sleep(2)
 
     href_list=[]
-    for pages in range(1):
+    for pages in range(2):
         count = 1000
         for i in range(int(5.5)):
             if i != 0:
