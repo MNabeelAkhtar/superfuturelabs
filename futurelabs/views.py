@@ -28,3 +28,7 @@ def products(request):
     else:
         scrape_aliex_data(request.POST["search"])
         return redirect("/")
+
+def delete_products(request):
+    ProductsDetails.objects.all().delete()
+    return redirect("/")

@@ -144,7 +144,7 @@
             font-size:12pt;
             border: 2px solid #f32121;
             margin-right: 5px;
-            margin-left: 75px;
+            margin-left: 1270px;
             transition-duration: 0.4s;
             cursor: pointer;
         }
@@ -223,58 +223,61 @@
         </div>
     </div>
     <center><h1>Ali Express Product and Filter</h1></center>
-    <form>
         <div>
             <div>
-                <input name="title" value="{{ request.GET.title }}" type="text" id="textboxid" placeholder="Search for products">
-                <label for="Price" id="text">Price: </label>
-                <input name="min_price" value="{{ request.GET.min_price }}" type="text" id="textid" placeholder="Min">
-                <label>-</label>
-                <input name="max_price"  value="{{ request.GET.max_price }}" type="text" id="textid" placeholder="Max">
+                <form>
+                    <input name="title" value="{{ request.GET.title }}" type="text" id="textboxid" placeholder="Search for products">
+                    <label for="Price" id="text">Price: </label>
+                    <input name="min_price" value="{{ request.GET.min_price }}" type="text" id="textid" placeholder="Min">
+                    <label>-</label>
+                    <input name="max_price"  value="{{ request.GET.max_price }}" type="text" id="textid" placeholder="Max">
 
-                <select name="price_range" id="optionboxid">
-                    <option value="">Sort by Price</option>
-                    {% if request.GET.price_range == "low_high" %}
-                      <option value="low_high" selected>Low - High</option>
-                    {% else %}
-                      <option value="low_high">Low - High</option>
-                    {% endif %}
+                    <select name="price_range" id="optionboxid">
+                        <option value="">Sort by Price</option>
+                        {% if request.GET.price_range == "low_high" %}
+                          <option value="low_high" selected>Low - High</option>
+                        {% else %}
+                          <option value="low_high">Low - High</option>
+                        {% endif %}
 
-                    {% if request.GET.price_range == "high_low" %}
-                      <option value="high_low" selected>High - Low</option>
-                    {% else %}
-                      <option value="high_low">High - Low</option>
-                    {% endif %}
-                  </select>
-                <!-- <label for="Delivery Type" id="text">  Delivery Method: </label> -->
+                        {% if request.GET.price_range == "high_low" %}
+                          <option value="high_low" selected>High - Low</option>
+                        {% else %}
+                          <option value="high_low">High - Low</option>
+                        {% endif %}
+                      </select>
+                    <!-- <label for="Delivery Type" id="text">  Delivery Method: </label> -->
 
-                <select name="shipping_method" id="optionboxid">
-                  <option value="">Shipping Method</option>
-                  {% if request.GET.shipping_method == "FEDEX" %}
-                    <option value="FEDEX" selected>FEDEX</option>
-                  {% else %}
-                    <option value="FEDEX">FEDEX</option>
-                  {% endif %}
+                    <select name="shipping_method" id="optionboxid">
+                      <option value="">Shipping Method</option>
+                      {% if request.GET.shipping_method == "FEDEX" %}
+                        <option value="FEDEX" selected>FEDEX</option>
+                      {% else %}
+                        <option value="FEDEX">FEDEX</option>
+                      {% endif %}
 
-                  {% if request.GET.shipping_method == "USPS" %}
-                    <option value="USPS" selected>USPS</option>
-                  {% else %}
-                    <option value="USPS">USPS</option>
-                  {% endif %}
+                      {% if request.GET.shipping_method == "USPS" %}
+                        <option value="USPS" selected>USPS</option>
+                      {% else %}
+                        <option value="USPS">USPS</option>
+                      {% endif %}
 
-                  {% if request.GET.shipping_method == "UPS" %}
-                    <option value="UPS" selected>UPS</option>
-                  {% else %}
-                    <option value="UPS">UPS</option>
-                  {% endif %}
-                </select>
+                      {% if request.GET.shipping_method == "UPS" %}
+                        <option value="UPS" selected>UPS</option>
+                      {% else %}
+                        <option value="UPS">UPS</option>
+                      {% endif %}
+                    </select>
 
-                <button type="submit" id="button">Apply Filters</button>
-                <a href="/">Clear Filters</a>
-                <button type="submit" id="button_clear">Clear Database</button>
+                    <button type="submit" id="button">Apply Filters</button>
+                    <a href="/">Clear Filters</a>
+                </form>
+                <form method="POST" action="/delete">
+                    {% csrf_token %}
+                    <button type="submit" id="button_clear" name="clear">Clear Database</button>
+                </form>
             </div>
         </div>
-    </form>
 
     <center>
         <hr/>

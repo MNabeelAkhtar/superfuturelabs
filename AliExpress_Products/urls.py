@@ -19,5 +19,6 @@ from futurelabs import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',views.products)
+    path('',views.products),
+    path('delete',views.delete_products)
 ]
