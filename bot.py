@@ -65,7 +65,7 @@ def scrape_aliex_data(search):
             time.sleep(1)
 
         href_list=[]
-        for pages in range(2):
+        for pages in range(5):
             count = 1000
             for i in range(int(5.5)):
                 if i != 0:
