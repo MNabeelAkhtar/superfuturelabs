@@ -207,6 +207,14 @@
                 transform: rotate(1turn) ;
             }
         }
+        .alert{
+            background: yellow;
+            font: 12px;
+            padding: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            width: auto;
+        }
         </style>
 </head>
 <body>
@@ -222,6 +230,7 @@
           </form>
         </div>
     </div>
+    {% include 'message.html' %}
     <center><h1>Ali Express Product and Filter</h1></center>
         <div>
             <div>
@@ -231,7 +240,6 @@
                     <input name="min_price" value="{{ request.GET.min_price }}" type="text" id="textid" placeholder="Min">
                     <label>-</label>
                     <input name="max_price"  value="{{ request.GET.max_price }}" type="text" id="textid" placeholder="Max">
-
                     <select name="price_range" id="optionboxid">
                         <option value="">Sort by Price</option>
                         {% if request.GET.price_range == "low_high" %}

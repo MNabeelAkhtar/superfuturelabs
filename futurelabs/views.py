@@ -1,6 +1,8 @@
 import re
+import time
 from django.shortcuts import render, redirect
 from futurelabs.models import ProductsDetails
+from django.contrib import messages
 from bot import scrape_aliex_data
 
 def products(request):
@@ -26,9 +28,15 @@ def products(request):
             display_products = display_products.order_by('-total_price')
         return render(request,'index.html',{"products":display_products})
     else:
-        scrape_aliex_data(request.POST["search"])
+        res = scrape_aliex_data(request.POST["search"])
+        if res:
+            messages.success(request, 'Scrapped Data Stored Successfully')
+        else:
+            messages.success(request, 'Internal Error! Please Refresh and try Again')
+        time.sleep(3)
         return redirect("/")
 
 def delete_products(request):
     ProductsDetails.objects.all().delete()
+    messages.success(request, 'Products Data Cleared Successfully')
     return redirect("/")
