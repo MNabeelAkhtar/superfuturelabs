@@ -14,7 +14,7 @@ from selenium.webdriver.support import expected_conditions as EC
 def scrape_aliex_data(search):
     try:
         search = search.replace(" ", "+")
-        URL = f"https://www.aliexpress.com/af/bottle.html?trafficChannel=af&d=y&CatId=0&SearchText={search}&ltype=affiliate&SortType=default&shipFromCountry=US&page=1"
+        URL = f"https://www.aliexpress.com/af/bottle.html?trafficChannel=af&d=y&CatId=0&SearchText={search}&ltype=affiliate&SortType=default&g=y&shipFromCountry=US&page=1"
         options = Options()
         options.add_argument("--headless")
         options.add_argument("--start-maximized")
@@ -24,7 +24,7 @@ def scrape_aliex_data(search):
         S=Service("/var/www/superfuturelabs/chromedriver/stable/chromedriver")
         driver = webdriver.Chrome(options=options, service=S)
         driver.get(URL)
-        WAIT= WebDriverWait(driver, 30)
+        WAIT= WebDriverWait(driver, 40)
         time.sleep(5)
         try:
              if driver.find_element_by_xpath("//*[contains(@class,'Sk1_X _1-SOk')]"):
@@ -50,11 +50,19 @@ def scrape_aliex_data(search):
         saveButton =WAIT.until(EC.presence_of_element_located((By.XPATH, "//button[@class='ui-button ui-button-primary go-contiune-btn']"))).click()
 
         try:
-            # WAIT.until(EC.presence_of_element_located((By.XPATH, "//span[@class='next-input next-medium next-select-inner']")))
-            shipment_From = WAIT.until(EC.presence_of_element_located((By.XPATH, "//span[@class='next-input next-medium next-select-inner']"))).click()
-            shipment_Country = WAIT.until(EC.presence_of_element_located((By.XPATH, "//ul//li[@title='United States']"))).click()
-        except: print("Shipping From US Exceptions")
-        time.sleep(2)
+            WAIT.until(EC.presence_of_element_located((By.XPATH, "//span[contains(@class,'shipfrom')]/span")))
+            shipment_From = driver.find_element(By.XPATH, "//span[contains(@class,'shipfrom')]/span")
+            driver.execute_script("arguments[0].click();",shipment_From)
+            shipment_Country = driver.find_element(By.XPATH, "//ul//li[@title='United States']").click()
+            time.sleep(1)
+        except:
+            print("From Shipment not find")
+            driver.refresh()
+            WAIT.until(EC.presence_of_element_located((By.XPATH, "//span[contains(@class,'shipfrom')]/span")))
+            shipment_From = driver.find_element(By.XPATH, "//span[contains(@class,'shipfrom')]/span")
+            driver.execute_script("arguments[0].click();",shipment_From)
+            shipment_Country = driver.find_element(By.XPATH, "//ul//li[@title='United States']").click()
+            time.sleep(1)
 
         href_list=[]
         for pages in range(2):
