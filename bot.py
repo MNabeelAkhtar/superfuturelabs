@@ -171,7 +171,7 @@ def save_products(products):
                 if '$' in shipping_price: shipping_price = float(shipping_price.split("$")[-1])
                 products_to_be_created.append(
                     ProductsDetails(product_name=title, url=url, image_url=image_url, cost=price,
-                                    shipping_price=shipping_price, total_price=float(price + shipping_price),
+                                    shipping_price=shipping_price, total_price=round(float(price + shipping_price),2),
                                     shipping_method=shipping_method, arrive_by=shipping_speed)
                 )
         except: continue
