@@ -235,12 +235,12 @@
         <div>
             <div>
                 <form>
-                    <input name="title" value="{{ request.GET.title }}" type="text" id="textboxid" placeholder="Search for products">
+                    <input name="title" class= "product-title" value="{{ request.GET.title }}" type="text" id="textboxid" placeholder="Search for products">
                     <label for="Price" id="text">Price: </label>
-                    <input name="min_price" value="{{ request.GET.min_price }}" type="text" id="textid" placeholder="Min">
+                    <input name="min_price" class="min-value-search" value="{{ request.GET.min_price }}" type="text" id="textid" placeholder="Min">
                     <label>-</label>
-                    <input name="max_price"  value="{{ request.GET.max_price }}" type="text" id="textid" placeholder="Max">
-                    <select name="price_range" id="optionboxid">
+                    <input name="max_price" class="max-value-search" value="{{ request.GET.max_price }}" type="text" id="textid" placeholder="Max">
+                    <select name="price_range" id="optionboxid" class="sort-by-price">
                         <option value="">Sort by Price</option>
                         {% if request.GET.price_range == "low_high" %}
                           <option value="low_high" selected>Low - High</option>
@@ -256,7 +256,7 @@
                       </select>
                     <!-- <label for="Delivery Type" id="text">  Delivery Method: </label> -->
 
-                    <select name="shipping_method" id="optionboxid">
+                    <select name="shipping_method" id="optionboxid" class="shipping-method-dropbox">
                       <option value="">Shipping Method</option>
                       {% if request.GET.shipping_method == "FEDEX" %}
                         <option value="FEDEX" selected>FEDEX</option>
@@ -277,12 +277,12 @@
                       {% endif %}
                     </select>
 
-                    <button type="submit" id="button">Apply Filters</button>
+                    <button type="submit" id="button" class="filter">Apply Filters</button>
                     <a href="/">Clear Filters</a>
                 </form>
                 <form method="POST" action="/delete">
                     {% csrf_token %}
-                    <button type="submit" id="button_clear" name="clear">Clear Database</button>
+                    <button type="submit" id="button_clear" name="clear" class="clear-db">Clear Database</button>
                 </form>
             </div>
         </div>
@@ -317,7 +317,7 @@
                         <label>${{result.shipping_price}} USD</label>
                     {% endif %}
                     </td>
-                <td><label>${{result.total_price}} USD</label></td>
+                <td><label>${{result.total_price|floatformat:2}} USD</label></td>
                 <td>{{result.shipping_method}}</td>
                 <td>
                     {% if result.arrive_by == None %}
