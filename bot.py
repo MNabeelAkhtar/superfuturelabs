@@ -136,7 +136,7 @@ def scrape_aliex_data(search):
                 if "$" in shipping_price:
                     shipping_price = shipping_price.split(": ")[-1]
                 else:
-                    shipping_price = "$0.0"
+                    shipping_price = "$0.00"
                 a = a +1
                 if shipping_method in via:
                     print(shipping_method)
