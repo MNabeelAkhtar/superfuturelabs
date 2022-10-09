@@ -317,7 +317,7 @@
                         <label>${{result.shipping_price}} USD</label>
                     {% endif %}
                     </td>
-                <td><label>${{ result.total_price|floatformat:2 }} USD</label></td>
+                <td><label>${{result.total_price}} USD</label></td>
                 <td>{{result.shipping_method}}</td>
                 <td>
                     {% if result.arrive_by == None %}

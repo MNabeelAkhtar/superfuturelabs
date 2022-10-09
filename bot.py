@@ -114,13 +114,13 @@ def scrape_aliex_data(search):
             print(title, image, price, url)
 
             driver.find_element(By.XPATH,"//div[@class='dynamic-shipping']").click()
-            time.sleep(1)
+            time.sleep(3)
             try:
                 driver.find_element(By.XPATH,"//div[@class='comet-modal-content']//div[2]//button")
                 print("Check", True)
                 WAIT.until(EC.presence_of_element_located((By.XPATH, "//div[@class='comet-modal-content']//div[2]//button")))
                 driver.find_element(By.XPATH,"//div[@class='comet-modal-content']//div[2]//button").click()
-                time.sleep(1)
+                time.sleep(3)
                 WAIT.until(EC.presence_of_element_located((By.XPATH, "//div[contains(@class,'comet-modal-body')]/div")))
                 shipping_options = driver.find_elements(By.XPATH,"//div[contains(@class,'comet-modal-body')]/div")
             except:
