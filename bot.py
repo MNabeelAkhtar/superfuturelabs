@@ -24,7 +24,7 @@ def scrape_aliex_data(search):
         S=Service("/var/www/superfuturelabs/chromedriver/stable/chromedriver")
         driver = webdriver.Chrome(options=options, service=S)
         driver.get(URL)
-        WAIT= WebDriverWait(driver, 40)
+        WAIT= WebDriverWait(driver, 90)
         time.sleep(3)
         try:
              if driver.find_element_by_xpath("//*[contains(@class,'Sk1_X _1-SOk')]"):
