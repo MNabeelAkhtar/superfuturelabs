@@ -15,6 +15,7 @@ def scrape_aliex_data(search):
     try:
         search = search.replace(" ", "+")
         URL = f"https://www.aliexpress.com/af/bottle.html?trafficChannel=af&d=y&CatId=0&SearchText={search}&ltype=affiliate&SortType=default&g=y&shipFromCountry=US&page=1"
+        print(search, URL)
         options = Options()
         options.add_argument("--headless")
         options.add_argument("--start-maximized")
@@ -25,7 +26,7 @@ def scrape_aliex_data(search):
         driver = webdriver.Chrome(options=options, service=S)
         # driver = webdriver.Chrome(service=S)
         driver.get(URL)
-        WAIT= WebDriverWait(driver, 60)
+        WAIT= WebDriverWait(driver, 30)
         time.sleep(3)
         try:
              if driver.find_element(By.XPATH,"//*[contains(@class,'Sk1_X _1-SOk')]"):
