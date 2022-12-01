@@ -186,4 +186,4 @@ def save_products(products):
     ProductsDetails.objects.bulk_create(products_to_be_created, ignore_conflicts=True)
 
 
-scrape_aliex_data("bottle")
+# scrape_aliex_data("bottle")
