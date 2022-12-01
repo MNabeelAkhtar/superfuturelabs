@@ -23,21 +23,22 @@ def scrape_aliex_data(search):
         # S=Service(ChromeDriverManager().install())
         S=Service("/var/www/superfuturelabs/chromedriver/stable/chromedriver")
         driver = webdriver.Chrome(options=options, service=S)
+        # driver = webdriver.Chrome(service=S)
         driver.get(URL)
-        WAIT= WebDriverWait(driver, 90)
+        WAIT= WebDriverWait(driver, 60)
         time.sleep(3)
         try:
-             if driver.find_element_by_xpath("//*[contains(@class,'Sk1_X _1-SOk')]"):
+             if driver.find_element(By.XPATH,"//*[contains(@class,'Sk1_X _1-SOk')]"):
                  link =WAIT.until(EC.presence_of_element_located((By.XPATH, "//*[contains(@class,'Sk1_X _1-SOk')]")))
                  driver.execute_script("arguments[0].click();",link)
 
-             if driver.find_element_by_xpath("//*[contains(@src,'https://img.alicdn.com/tfs/TB1a.Oge_M11u4jSZPxXXahcXXa-48-48.png')]"):
+             if driver.find_element(By.XPATH,"//*[contains(@src,'https://img.alicdn.com/tfs/TB1a.Oge_M11u4jSZPxXXahcXXa-48-48.png')]"):
                  link1 =WAIT.until(EC.presence_of_element_located((By.XPATH, "//*[contains(@src,'https://img.alicdn.com/tfs/TB1a.Oge_M11u4jSZPxXXahcXXa-48-48.png')]")))
                  driver.execute_script("arguments[0].click();",link1)
         except:
              print("Exception on notification")
 
-        info =WAIT.until(EC.presence_of_element_located((By.XPATH, "//div[@class='ng-item-wrap ng-item ng-switcher']")))
+        info =WAIT.until(EC.presence_of_element_located((By.XPATH, "//div[contains(@data-role,'region-pannel')]")))
         info.click()
         info.click()
         try:
@@ -50,7 +51,7 @@ def scrape_aliex_data(search):
             saveButton =WAIT.until(EC.presence_of_element_located((By.XPATH, "//button[@class='ui-button ui-button-primary go-contiune-btn']"))).click()
         except:
             driver.refresh()
-            info =WAIT.until(EC.presence_of_element_located((By.XPATH, "//div[@class='ng-item-wrap ng-item ng-switcher']")))
+            info =WAIT.until(EC.presence_of_element_located((By.XPATH, "//div[contains(@data-role,'region-pannel')]")))
             info.click()
             info.click()
             country =WAIT.until(EC.presence_of_element_located((By.XPATH, "//span[@class='shipping-text']"))).click()
@@ -61,21 +62,24 @@ def scrape_aliex_data(search):
             saveButton =WAIT.until(EC.presence_of_element_located((By.XPATH, "//button[@class='ui-button ui-button-primary go-contiune-btn']"))).click()
 
         try:
-            WAIT.until(EC.presence_of_element_located((By.XPATH, "//span[contains(@class,'shipfrom')]/span")))
-            shipment_From = driver.find_element(By.XPATH, "//span[contains(@class,'shipfrom')]/span")
-            driver.execute_script("arguments[0].click();",shipment_From)
-            shipment_Country = driver.find_element(By.XPATH, "//ul//li[@title='United States']").click()
-            time.sleep(1)
+            try:
+                WAIT.until(EC.presence_of_element_located((By.XPATH, "//span[contains(@class,'shipfrom')]/span")))
+                shipment_From = driver.find_element(By.XPATH, "//span[contains(@class,'shipfrom')]/span")
+                driver.execute_script("arguments[0].click();",shipment_From)
+                shipment_Country = driver.find_element(By.XPATH, "//ul//li[@title='United States']").click()
+                time.sleep(1)
+            except:
+                print("From Shipment not find")
+                driver.refresh()
+                WAIT.until(EC.presence_of_element_located((By.XPATH, "//span[contains(@class,'shipfrom')]/span")))
+                shipment_From = driver.find_element(By.XPATH, "//span[contains(@class,'shipfrom')]/span")
+                driver.execute_script("arguments[0].click();",shipment_From)
+                shipment_Country = driver.find_element(By.XPATH, "//ul//li[@title='United States']").click()
+                time.sleep(1)
         except:
-            print("From Shipment not find")
-            driver.refresh()
-            WAIT.until(EC.presence_of_element_located((By.XPATH, "//span[contains(@class,'shipfrom')]/span")))
-            shipment_From = driver.find_element(By.XPATH, "//span[contains(@class,'shipfrom')]/span")
-            driver.execute_script("arguments[0].click();",shipment_From)
-            shipment_Country = driver.find_element(By.XPATH, "//ul//li[@title='United States']").click()
-            time.sleep(1)
+            pass
         href_list=[]
-        for page in range(4):
+        for page in range(2):
             driver.get(f"https://www.aliexpress.com/af/kitchen.html?trafficChannel=af&g=y&CatId=0&SearchText={search}&ltype=affiliate&SortType=default&g=y&shipFromCountry=US&page={page+1}")
             count = 1000
             try:
@@ -86,8 +90,8 @@ def scrape_aliex_data(search):
                     else:
                         driver.execute_script(f"window.scrollTo(0,{count})")
                         count = count + 1000
-                    WAIT.until(EC.presence_of_element_located((By.XPATH, "//div[@class='product-container']//div//a[@class= '_3t7zg _2f4Ho']")))
-                    paths = driver.find_elements(By.XPATH,"//div[@class='product-container']//div//a[@class= '_3t7zg _2f4Ho']")
+                    WAIT.until(EC.presence_of_element_located((By.XPATH, "//div[@class='product-container']//div[2]/a[contains(@href,'curPageLogUid')]")))
+                    paths = driver.find_elements(By.XPATH,"//div[@class='product-container']//div[2]/a[contains(@href,'curPageLogUid')]")
                     for path in paths:
                         if path.get_attribute('href') not in href_list:
                             href_list.append(path.get_attribute('href'))
@@ -112,9 +116,9 @@ def scrape_aliex_data(search):
             image = driver.find_element(By.XPATH,"//div[@class='image-viewer']//div[@class='image-view-magnifier-wrap']//img").get_attribute('src')
             url = driver.current_url
             print(title, image, price, url)
-
             driver.find_element(By.XPATH,"//div[@class='dynamic-shipping']").click()
             time.sleep(3)
+
             try:
                 driver.find_element(By.XPATH,"//div[@class='comet-modal-content']//div[2]//button")
                 print("Check", True)
@@ -125,8 +129,11 @@ def scrape_aliex_data(search):
                 shipping_options = driver.find_elements(By.XPATH,"//div[contains(@class,'comet-modal-body')]/div")
             except:
                 print("Exception")
-                WAIT.until(EC.presence_of_element_located((By.XPATH, "//div[contains(@class,'comet-modal-body')]/div")))
-                shipping_options = driver.find_elements(By.XPATH,"//div[contains(@class,'comet-modal-body')]/div")
+                try:
+                    WAIT.until(EC.presence_of_element_located((By.XPATH, "//div[contains(@class,'comet-modal-body')]/div")))
+                    shipping_options = driver.find_elements(By.XPATH,"//div[contains(@class,'comet-modal-body')]/div")
+                except:
+                    continue
             a = 1
             shipping_option_list = []
             for ship_option in shipping_options:
@@ -149,6 +156,7 @@ def scrape_aliex_data(search):
                 product_hash = {"title": title, "price": price, "image": image, "url": url, "shipping_options": shipping_option_list}
                 print(product_hash)
                 products.append(product_hash)
+        # print(products)
         save_products(products)
         return True
     except: return False
@@ -177,3 +185,5 @@ def save_products(products):
         except: continue
     ProductsDetails.objects.bulk_create(products_to_be_created, ignore_conflicts=True)
 
+
+scrape_aliex_data("bottle")
