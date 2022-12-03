@@ -156,35 +156,61 @@ def scrape_aliex_data(search):
             if len(shipping_option_list) >= 1:
                 product_hash = {"title": title, "price": price, "image": image, "url": url, "shipping_options": shipping_option_list}
                 print(product_hash)
-                products.append(product_hash)
+                success = save_products(product_hash)
+                if not success: continue
+                print("SAVED")
+                # products.append(product_hash)
         # print(products)
-        save_products(products)
+        # save_products(products)
         return True
     except: return False
 
-def save_products(products):
-    products_to_be_created = []
-    for product in products:
-        try:
-            shipping_options = product["shipping_options"]
-            for shipping_option in shipping_options:
-                shipping_method = shipping_option["shipping_method"]
-                shipping_price = shipping_option["shipping_price"]
-                shipping_speed = shipping_option["shipping_speed"]
-                title = product["title"]
-                price = product["price"]
-                image_url = product["image"]
-                url = product["url"]
-                if '-' in price: continue
-                if '$' in price: price = float(price.split("$")[-1])
-                if '$' in shipping_price: shipping_price = float(shipping_price.split("$")[-1])
-                products_to_be_created.append(
-                    ProductsDetails(product_name=title, url=url, image_url=image_url, cost=price,
-                                    shipping_price=shipping_price, total_price=round(float(price + shipping_price),2),
-                                    shipping_method=shipping_method, arrive_by=shipping_speed)
-                )
-        except: continue
-    ProductsDetails.objects.bulk_create(products_to_be_created, ignore_conflicts=True)
+def save_products(product):
+    try:
+        shipping_options = product["shipping_options"]
+        for shipping_option in shipping_options:
+            shipping_method = shipping_option["shipping_method"]
+            shipping_price = shipping_option["shipping_price"]
+            shipping_speed = shipping_option["shipping_speed"]
+            title = product["title"]
+            price = product["price"]
+            image_url = product["image"]
+            url = product["url"]
+            if '-' in price: continue
+            if '$' in price: price = float(price.split("$")[-1])
+            if '$' in shipping_price: shipping_price = float(shipping_price.split("$")[-1])
+            pd, created = ProductsDetails.objects.get_or_create(product_name=title, url=url, image_url=image_url, cost=price,
+                    shipping_price=shipping_price, total_price=round(float(price + shipping_price),2),
+                    shipping_method=shipping_method, arrive_by=shipping_speed)
+            print(pd, "created: ",created)
+            if pd or created:
+                return True
+    except:
+        return False
+
+# def save_products(products):
+#     products_to_be_created = []
+#     for product in products:
+#         try:
+#             shipping_options = product["shipping_options"]
+#             for shipping_option in shipping_options:
+#                 shipping_method = shipping_option["shipping_method"]
+#                 shipping_price = shipping_option["shipping_price"]
+#                 shipping_speed = shipping_option["shipping_speed"]
+#                 title = product["title"]
+#                 price = product["price"]
+#                 image_url = product["image"]
+#                 url = product["url"]
+#                 if '-' in price: continue
+#                 if '$' in price: price = float(price.split("$")[-1])
+#                 if '$' in shipping_price: shipping_price = float(shipping_price.split("$")[-1])
+#                 products_to_be_created.append(
+#                     ProductsDetails(product_name=title, url=url, image_url=image_url, cost=price,
+#                                     shipping_price=shipping_price, total_price=round(float(price + shipping_price),2),
+#                                     shipping_method=shipping_method, arrive_by=shipping_speed)
+#                 )
+#         except: continue
+#     ProductsDetails.objects.bulk_create(products_to_be_created, ignore_conflicts=True)
 
 
 # scrape_aliex_data("bottle")
