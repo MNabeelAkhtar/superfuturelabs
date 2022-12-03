@@ -167,6 +167,7 @@ def scrape_aliex_data(search):
 
 def save_products(product):
     try:
+        products_to_be_created = []
         shipping_options = product["shipping_options"]
         for shipping_option in shipping_options:
             shipping_method = shipping_option["shipping_method"]
@@ -179,12 +180,13 @@ def save_products(product):
             if '-' in price: continue
             if '$' in price: price = float(price.split("$")[-1])
             if '$' in shipping_price: shipping_price = float(shipping_price.split("$")[-1])
-            pd, created = ProductsDetails.objects.get_or_create(product_name=title, url=url, image_url=image_url, cost=price,
-                    shipping_price=shipping_price, total_price=round(float(price + shipping_price),2),
-                    shipping_method=shipping_method, arrive_by=shipping_speed)
-            print(pd, "created: ",created)
-            if pd or created:
-                return True
+            products_to_be_created.append(
+                ProductsDetails(product_name=title, url=url, image_url=image_url, cost=price,
+                                shipping_price=shipping_price, total_price=round(float(price + shipping_price),2),
+                                shipping_method=shipping_method, arrive_by=shipping_speed)
+            )
+        ProductsDetails.objects.bulk_create(products_to_be_created, ignore_conflicts=True)
+        return True
     except:
         return False
 
