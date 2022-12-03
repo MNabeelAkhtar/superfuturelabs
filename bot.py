@@ -84,7 +84,7 @@ def scrape_aliex_data(search):
             driver.get(f"https://www.aliexpress.com/af/kitchen.html?trafficChannel=af&g=y&CatId=0&SearchText={search}&ltype=affiliate&SortType=default&g=y&shipFromCountry=US&page={page+1}")
             count = 1000
             try:
-                for i in range(6):
+                for i in range(4):
                     if i != 0:
                         driver.execute_script(f"window.scrollTo({count - 1000},{count})")
                         count  = count + 1000
