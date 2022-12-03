@@ -80,7 +80,7 @@ def scrape_aliex_data(search):
         except:
             pass
         href_list=[]
-        for page in range(2):
+        for page in range(5):
             driver.get(f"https://www.aliexpress.com/af/kitchen.html?trafficChannel=af&g=y&CatId=0&SearchText={search}&ltype=affiliate&SortType=default&g=y&shipFromCountry=US&page={page+1}")
             count = 1000
             try:
